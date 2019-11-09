@@ -1,10 +1,11 @@
-FROM debian:stretch
+FROM ubuntu:19.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
-ENV HOME="/home/automation"
 
 # Set timezone
+RUN apt-get update
+RUN apt-get install -y tzdata
 RUN echo "US/Eastern" > /etc/timezone && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
@@ -46,4 +47,4 @@ EXPOSE 4444
 
 USER automation
 
-CMD ["/usr/local/bin/chromedriver", "--whitelisted-ips", "--port=4444"]
+CMD ["/usr/local/bin/chromedriver", "--whitelisted-ips", "--port=4444", "--verbose", "--log-path=/home/automation/error.log"]
