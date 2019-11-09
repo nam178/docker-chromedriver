@@ -1,8 +1,8 @@
 FROM debian:stretch
-MAINTAINER Nam Duong
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
+ENV HOME="/home/automation"
 
 # Set timezone
 RUN echo "US/Eastern" > /etc/timezone && \
@@ -23,7 +23,6 @@ RUN apt-get -yqq update && \
     apt-get -yqq install gnupg2 && \
     apt-get -yqq install curl unzip && \
     apt-get -yqq install fonts-ipafont-gothic xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic && \
-    # apt-get -yqq install python && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Chrome WebDriver
@@ -43,8 +42,8 @@ RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-ke
     rm -rf /var/lib/apt/lists/*
 
 # Default configuration
-EXPOSE 28182
+EXPOSE 4444
 
 USER automation
 
-CMD ["/usr/local/bin/chromedriver", "--whitelisted-ips=", "--port=28182", "--url-base=''"]
+CMD ["/usr/local/bin/chromedriver", "--whitelisted-ips", "--port=4444"]
